@@ -1,6 +1,7 @@
 
 from requests_oauthlib import OAuth1Session
 import secrets
+import json
 
 client_key = secrets.api_key
 client_secret = secrets.api_secret
@@ -24,7 +25,7 @@ resource_owner_secret = fetch_response.get('oauth_token_secret')
 # STEP 2: GET AUTHORIZATION FROM THE USER
 # Now we have "request privileges." What will we do with all that power?
 # We will send our user over to the service provider (Twitter, in this case)
-# to log in. After they do, Twitter will generate a special URL,
+# to log in. As part of this, Twitter will generate a special URL,
 # unique to this operation (THIS request for THIS user by THIS application).
 # Our application can then go to that URL to get the very special
 # verification token that we can use to retreive THIS user's data for use
@@ -84,9 +85,14 @@ oauth = OAuth1Session(client_key,
                           resource_owner_key=resource_owner_key,
                           resource_owner_secret=resource_owner_secret)
 r = oauth.get(protected_url)
-print (r.text)
+# print (r.text)
 
 protected_url = 'https://api.twitter.com/1.1/search/tweets.json'
 params = {'q':'food'}
 r = oauth.get(protected_url, params=params)
-print (r.text)
+tweets = json.loads(r.text)
+# print(tweets)
+for each_tweet in tweets["statuses"]:
+    print(each_tweet["text"])
+
+print("LIST OF TWEETS")
