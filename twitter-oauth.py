@@ -92,7 +92,10 @@ params = {'q':'food'}
 r = oauth.get(protected_url, params=params)
 tweets = json.loads(r.text)
 # print(tweets)
-for each_tweet in tweets["statuses"]:
-    print(each_tweet["text"])
-
 print("LIST OF TWEETS")
+for each_tweet in tweets["statuses"]:
+    print(each_tweet["user"]["name"])
+    print(each_tweet["text"])
+    # print(each_tweet["screen_name"])
+
+# print("LIST OF TWEETS")
